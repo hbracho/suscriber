@@ -1,0 +1,9 @@
+Flask==1.0.2 
+flask-restful==0.3.7
+httpie==1.0.0
+marshmallow==2.19.5
+webargs==5.4.0
+pymongo==3.11.1
+marshmallow-jsonschema==0.10.0
+passlib==1.7.4
+Flask-Caching==1.7.2
