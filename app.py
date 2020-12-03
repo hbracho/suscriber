@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from adapter.input.extensions import cache
 from adapter.input.config import Config
-from adapter.input.suscriber import SuscriberListResource, SuscriberResource
+from adapter.input.suscriberController import SuscriberListResource, SuscriberResource
 
 def create_app():
     app = Flask(__name__)

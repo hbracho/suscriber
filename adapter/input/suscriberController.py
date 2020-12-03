@@ -1,0 +1,79 @@
+from flask import request
+from flask_restful import Resource
+from http import HTTPStatus
+import json
+from domain.entities.suscriber import Suscriber, suscriber_list
+from adapter.schema.suscriber import SuscriberSchema, SuscriberCreatedSchema
+from adapter.output.mongodbRepository import MongodbInfra
+from webargs import fields
+from webargs.flaskparser import use_kwargs
+from adapter.input.extensions import cache
+from domain.suscriberService import SuscriberService
+from domain.exceptions.exceptions import AlreadyRegisteredException, NotFoundRegisterException, ForbiddenException
+
+
+suscriber_schemaList = SuscriberSchema(many=True)
+suscriber_schemaSingle = SuscriberSchema()
+suscriberPost_schemaSingel = SuscriberCreatedSchema()
+mongodb = MongodbInfra()
+service = SuscriberService(mongodb)
+
+class SuscriberListResource(Resource):
+
+    def get(self):
+        suscribers = service.searchAll()
+        return suscriber_schemaList.dump(suscribers).data, HTTPStatus.OK
+        
+    def post(self):
+        try:
+            json_data = request.get_json()
+            data, errors = suscriber_schemaSingle.load(data=json_data)
+            if errors:
+                return {'message': 'Validation errors', 'errors': errors}, HTTPStatus.BAD_REQUEST
+            
+            suscriber = Suscriber(topic_name=data['topic_name'])
+            result = service.create(suscriber)
+            return suscriberPost_schemaSingel.dump(result).data, HTTPStatus.CREATED
+        
+        except AlreadyRegisteredException:
+            return {'message': 'Topic Name is already'}, HTTPStatus.ALREADY_REPORTED
+        except Exception as e:
+            print(e)
+            return {'message': 'System Error'}, HTTPStatus.INTERNAL_SERVER_ERROR
+        
+class SuscriberResource(Resource):
+
+    def delete(self, topic_name):
+        try:
+            service.delete(topic_name)
+
+            return {'message': 'Topic Name deleted'}, HTTPStatus.ACCEPTED
+        except NotFoundRegisterException:
+             return {'message': 'Topic Name not found'}, HTTPStatus.NOT_FOUND
+        except Exception as e:
+            print(e)
+            return {'message': 'System Error'}, HTTPStatus.INTERNAL_SERVER_ERROR
+          
+    @use_kwargs({'key': fields.Str(missing='not_found')})
+    @cache.cached(query_string=True)
+    def get(self, topic_name, key):
+        try:
+            print('entro en el search' + topic_name +" key " + key)
+
+            if key == 'not_found':
+                return {'message': 'Parameter key is required'}, HTTPStatus.BAD_REQUEST
+            
+            result = service.searchByTopicName(topic_name, key)
+            print("result->",result)
+
+            return suscriber_schemaSingle.dump(result).data, HTTPStatus.ACCEPTED
+        except ForbiddenException:
+            return {'message': 'Register not found or key is incorrect'}, HTTPStatus.UNAUTHORIZED
+        except Exception as e:
+            print(e)
+            return {'message': 'System Error'}, HTTPStatus.INTERNAL_SERVER_ERROR
+        
+
+        
+
+

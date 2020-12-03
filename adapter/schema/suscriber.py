@@ -9,6 +9,10 @@ class SuscriberSchema(Schema):
     class Meta:
         exclude = ('key',)
     
-    
+class SuscriberCreatedSchema(Schema):
+    topic_name = fields.String(required=True)
+    key = fields.String(dump_only=True)
+
+        
    
 
