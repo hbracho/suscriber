@@ -1,7 +1,7 @@
-from domain.suscriberRepositoryPort import SuscriberRepository
-from domain.entities.suscriber import Suscriber
-from domain.exceptions.exceptions import AlreadyRegisteredException,NotFoundRegisterException, ForbiddenException
-from application.utils import hash_password, check_password
+from src.domain.suscriberRepositoryPort import SuscriberRepository
+from src.domain.entities.suscriber import Suscriber
+from src.domain.exceptions.exceptions import AlreadyRegisteredException,NotFoundRegisterException, ForbiddenException
+from src.application.utils import hash_password, check_password
 class SuscriberService:
 
     def __init__(self, repository: SuscriberRepository):

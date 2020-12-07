@@ -35,4 +35,5 @@ My activities of the day.
         transcction => it isn't necesary (I am going to investigate a litle more)
         open close connection => library management it automatic.
 
-    - Build the project in an architectura hexagonal
+    - Build the project in an architectura hexagonal => Donde
+    - investigatea about max size cache by request flask

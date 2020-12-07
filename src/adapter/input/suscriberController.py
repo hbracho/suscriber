@@ -2,14 +2,14 @@ from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
 import json
-from domain.entities.suscriber import Suscriber, suscriber_list
-from adapter.schema.suscriber import SuscriberSchema, SuscriberCreatedSchema
-from adapter.output.mongodbRepository import MongodbInfra
+from src.domain.entities.suscriber import Suscriber, suscriber_list
+from src.adapter.schema.suscriber import SuscriberSchema, SuscriberCreatedSchema
+from src.adapter.output.mongodbRepository import MongodbInfra
 from webargs import fields
 from webargs.flaskparser import use_kwargs
-from adapter.input.extensions import cache
-from domain.suscriberService import SuscriberService
-from domain.exceptions.exceptions import AlreadyRegisteredException, NotFoundRegisterException, ForbiddenException
+from src.adapter.input.extensions import cache
+from src.domain.suscriberService import SuscriberService
+from src.domain.exceptions.exceptions import AlreadyRegisteredException, NotFoundRegisterException, ForbiddenException
 
 
 suscriber_schemaList = SuscriberSchema(many=True)

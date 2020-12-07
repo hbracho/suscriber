@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Api
-from adapter.input.extensions import cache
-from adapter.input.config import Config
-from adapter.input.suscriberController import SuscriberListResource, SuscriberResource
+from src.adapter.input.extensions import cache
+from src.adapter.input.config import Config
+from src.adapter.input.suscriberController import SuscriberListResource, SuscriberResource
 
 def create_app():
     app = Flask(__name__)
@@ -34,5 +34,6 @@ def register_resources(app):
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(port=5000, debug=True)
+    #app.run(port=5000, debug=True)
+    app.run(host= '0.0.0.0',port=80)
 
