@@ -10,7 +10,7 @@ WORKDIR /app
 ENV HOST="localhost"
 ENV USER_NAME="training"
 ENV PORT="27017"
-ENV DATABASE="training"
+ENV DATABASE_NAME="training"
 ENV PASSWORD="password"
 ENV AUTHSOURCE="training"
 

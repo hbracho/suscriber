@@ -6,7 +6,7 @@ import os
 
 host=os.environ['HOST']
 port = os.environ['PORT']
-database = os.environ.get('DATABASE')
+database = os.environ.get('DATABASE_NAME')
 authsource = os.environ.get('AUTHSOURCE')
 username=os.environ.get('USER_NAME')
 password = os.environ.get('PASSWORD')
