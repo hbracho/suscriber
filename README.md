@@ -37,3 +37,11 @@ My activities of the day.
 
     - Build the project in an architectura hexagonal => Donde
     - investigatea about max size cache by request flask
+
+
+export HOST=localhost
+export PORT=27017
+export AUTHSOURCE=training
+export USER_NAME=training
+export DATABASE_NAME=training
+export PASSWORD=password

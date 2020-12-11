@@ -1,7 +1,7 @@
 from src.domain.suscriberRepositoryPort import SuscriberRepository
 from src.domain.entities.suscriber import Suscriber
 from src.domain.exceptions.exceptions import AlreadyRegisteredException,NotFoundRegisterException, ForbiddenException
-from src.application.utils import hash_password, check_password
+from src.application.utils import encrypt_message, decrypt_message, check_password
 class SuscriberService:
 
     def __init__(self, repository: SuscriberRepository):
@@ -10,12 +10,14 @@ class SuscriberService:
     def searchAll(self) -> list:
         return self.repository.getAll()
         
-    def searchByTopicName(self, topic_name:str, key:str) -> dict:
-        
+    def searchByTopicNameAndClientId(self, topic_name:str, client_id:str) -> dict:
+        print("client_id=>", client_id)
+        client_id_encrypt= encrypt_message(client_id)        
+
         result = self.repository.searchByTopic(topic_name)
         print("result->",result)
 
-        if not result or not check_password(key, result['key']):
+        if not result or not check_password(client_id, result['client_id']):
             raise ForbiddenException
         
         return result
@@ -31,9 +33,9 @@ class SuscriberService:
         print("result->",result)
         if result:
             raise AlreadyRegisteredException
-        key = suscriber.key
-        suscriber.key=hash_password(key)
-        self.repository.save(suscriber)        
-        suscriber.key=key
-        return suscriber
+        suscriber.client_id=encrypt_message(suscriber.client_id)
+        
+        self.repository.save(suscriber)
+        # suscriber.client_id = decrypt_message(suscriber.client_id)
 
+        return suscriber

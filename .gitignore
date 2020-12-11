@@ -117,3 +117,5 @@ dmypy.json
 
 #custom
 environment
+secret.key
+cifrado.py

@@ -27,7 +27,7 @@ class MongodbInfra(SuscriberRepository):
         
     
     def getAll(self) -> list:
-        result = list(self.suscribers.find({'key': { "$exists": True } },{'topic_name':1,'key':1, '_id':0}))
+        result = list(self.suscribers.find({'client_id': { "$exists": True } },{'topic_name':1,'client_id':1, '_id':0}))
         
         return result
     

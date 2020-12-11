@@ -4,14 +4,11 @@ from marshmallow import Schema, fields
 
 class SuscriberSchema(Schema):
     topic_name = fields.String(required=True)
-    key = fields.String(dump_only=True)
-
-    class Meta:
-        exclude = ('key',)
+    client_id = fields.String(required=True)
     
 class SuscriberCreatedSchema(Schema):
     topic_name = fields.String(required=True)
-    key = fields.String(dump_only=True)
+    client_id = fields.String(required=True)
 
         
    

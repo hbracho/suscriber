@@ -26,14 +26,15 @@ class SuscriberListResource(Resource):
         
     def post(self):
         try:
+            
             json_data = request.get_json()
+            
             data, errors = suscriber_schemaSingle.load(data=json_data)
             if errors:
                 return {'message': 'Validation errors', 'errors': errors}, HTTPStatus.BAD_REQUEST
-            
-            suscriber = Suscriber(topic_name=data['topic_name'])
+            suscriber = Suscriber(topic_name=data['topic_name'], client_id=data['client_id'])
             result = service.create(suscriber)
-            return suscriberPost_schemaSingel.dump(result).data, HTTPStatus.CREATED
+            return "Created", HTTPStatus.CREATED
         
         except AlreadyRegisteredException:
             return {'message': 'Topic Name is already'}, HTTPStatus.ALREADY_REPORTED
@@ -54,16 +55,16 @@ class SuscriberResource(Resource):
             print(e)
             return {'message': 'System Error'}, HTTPStatus.INTERNAL_SERVER_ERROR
           
-    @use_kwargs({'key': fields.Str(missing='not_found')})
+    @use_kwargs({'client_id': fields.Str(missing='not_found')})
     @cache.cached(query_string=True)
-    def get(self, topic_name, key):
+    def get(self, topic_name, client_id):
         try:
-            print('entro en el search' + topic_name +" key " + key)
+            print('entro en el search, topic_name: ' + topic_name +", client_id: " + client_id)
 
-            if key == 'not_found':
+            if client_id == 'not_found':
                 return {'message': 'Parameter key is required'}, HTTPStatus.BAD_REQUEST
             
-            result = service.searchByTopicName(topic_name, key)
+            result = service.searchByTopicNameAndClientId(topic_name, client_id)
             print("result->",result)
 
             return suscriber_schemaSingle.dump(result).data, HTTPStatus.ACCEPTED
@@ -72,8 +73,3 @@ class SuscriberResource(Resource):
         except Exception as e:
             print(e)
             return {'message': 'System Error'}, HTTPStatus.INTERNAL_SERVER_ERROR
-        
-
-        
-
-

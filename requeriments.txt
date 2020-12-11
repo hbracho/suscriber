@@ -8,3 +8,4 @@ marshmallow-jsonschema==0.10.0
 passlib==1.7.4
 Flask-Caching==1.7.2
 mock==4.0.2
+cryptography==3.3.1
