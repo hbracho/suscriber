@@ -3,6 +3,8 @@ from flask_restful import Api
 from src.adapter.input.extensions import cache
 from src.adapter.input.config import Config
 from src.adapter.input.suscriberController import SuscriberListResource, SuscriberResource
+import logging
+import logging.config
 
 def create_app():
     app = Flask(__name__)
@@ -33,6 +35,8 @@ def register_resources(app):
 
 
 if __name__ == '__main__':
+    logging.config.fileConfig(fname='logger.ini')
+    logger = logging.getLogger(__name__)
     app = create_app()
     app.run(port=5000, debug=True)
     #app.run(host= '0.0.0.0',port=80)
