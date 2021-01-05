@@ -20,7 +20,7 @@ suscriberPost_schemaSingel = SuscriberCreatedSchema()
 class SuscriberListResource(Resource):
     def __init__(self):
         self.mongodb = MongodbInfra()
-        self.service = SuscriberService(mongodb)
+        self.service = SuscriberService(self.mongodb)
 
     def get(self):
         suscribers = self.service.searchAll()
